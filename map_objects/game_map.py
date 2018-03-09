@@ -98,11 +98,16 @@ class GameMap:
                 rooms.append(new_room)
                 num_rooms += 1
 
-        stairs_component = Stairs(self.dungeon_level + 1)
-        down_stairs = Entity(
-            center_of_last_room_x, center_of_last_room_y, '>', libtcod.white,
-            'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
-        entities.append(down_stairs)
+        if self.dungeon_level < 5:
+            stairs_component = Stairs(self.dungeon_level + 1)
+            down_stairs = Entity(
+                center_of_last_room_x, center_of_last_room_y, '>',
+                libtcod.white, 'Stairs', render_order=RenderOrder.STAIRS,
+                stairs=stairs_component)
+            entities.append(down_stairs)
+        else:
+            entities.append(create_fuzzy_wuzzy(
+                center_of_last_room_x, center_of_last_room_y))
 
     def create_room(self, room):
         # go through the tiles in the rectangle and make them passable
@@ -140,9 +145,7 @@ class GameMap:
             'hippo': from_dungeon_level(
                 [[1, 2], [100, 3], [5, 4], [0, 5]], self.dungeon_level),
             'elephant': from_dungeon_level(
-                [[1, 3], [100, 4]], self.dungeon_level),
-            'fuzzywuzzy': from_dungeon_level(
-                [[1, 5]], self.dungeon_level)
+                [[1, 3], [100, 4]], self.dungeon_level)
         }
         item_chances = {
             'healing_potion': 35,
@@ -175,13 +178,8 @@ class GameMap:
                     monster = create_sphynx(x, y)
                 elif monster_choice == 'hippo':
                     monster = create_hippo(x, y)
-                elif monster_choice == 'elephant':
-                    monster = create_elephant(x, y)
-                elif monster_choice == 'fuzzywuzzy':
-                    monster = create_fuzzy_wuzzy(x, y)
                 else:
-                    monster = create_naked_mole_rat(0, 0)
-                    print('error')
+                    monster = create_elephant(x, y)
 
                 entities.append(monster)
 
