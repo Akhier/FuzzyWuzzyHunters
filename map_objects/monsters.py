@@ -46,7 +46,7 @@ def create_naked_mole_rat(x, y):
     fighter_component = Fighter(hp, defense, power, xp)
     ai_component = BasicMonster()
 
-    return Entity(x, y, 'n', libtcod.sepia_light,
+    return Entity(x, y, 'n', libtcod.light_sepia,
                   'Naked Mole Rat', blocks=True,
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
@@ -76,7 +76,7 @@ def create_sphynx(x, y):
     fighter_component = Fighter(hp, defense, power, xp)
     ai_component = BasicMonster()
 
-    return Entity(x, y, 'c', libtcod.sepia_lighter,
+    return Entity(x, y, 'c', libtcod.lighter_sepia,
                   'Sphynx', blocks=True,
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
@@ -106,7 +106,7 @@ def create_elephant(x, y):
     fighter_component = Fighter(hp, defense, power, xp)
     ai_component = BasicMonster()
 
-    return Entity(x, y, 'E', libtcod.grey_dark,
+    return Entity(x, y, 'E', libtcod.dark_grey,
                   'Elephant', blocks=True,
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
