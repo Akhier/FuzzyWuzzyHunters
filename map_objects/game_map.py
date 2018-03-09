@@ -131,13 +131,18 @@ class GameMap:
         number_of_items = randint(0, max_items_per_room)
 
         monster_chances = {
-            'nmrat': 10,
-            'nmratqueen': 10,
-            'sphynx': 10,
-            'hippo': 10,
-            'elephant': 10,
+            'nmrat': from_dungeon_level(
+                [[100, 1], [10, 2], [0, 3]], self.dungeon_level),
+            'nmratqueen': from_dungeon_level(
+                [[5, 1], [0, 2]], self.dungeon_level),
+            'sphynx': from_dungeon_level(
+                [[10, 1], [100, 2]], self.dungeon_level),
+            'hippo': from_dungeon_level(
+                [[1, 2], [100, 3], [5, 4], [0, 5]], self.dungeon_level),
+            'elephant': from_dungeon_level(
+                [[1, 3], [100, 4]], self.dungeon_level),
             'fuzzywuzzy': from_dungeon_level(
-                [[10, 1]], self.dungeon_level)
+                [[1, 5]], self.dungeon_level)
         }
         item_chances = {
             'healing_potion': 35,
