@@ -55,25 +55,29 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
                 wall = game_map.tiles[x][y].block_sight
 
                 if visible:
+                    libtcod.console_set_char_background(
+                        con, x, y, libtcod.Color(15, 15, 15))
                     if wall:
-                        libtcod.console_set_char_background(
-                            con, x, y, colors.get('light_wall'),
-                            libtcod.BKGND_SET)
+                        libtcod.console_set_char_foreground(
+                            con, x, y, colors.get('light_wall'))
+                        libtcod.console_set_char(con, x, y, '#')
                     else:
-                        libtcod.console_set_char_background(
-                            con, x, y, colors.get('light_ground'),
-                            libtcod.BKGND_SET)
+                        libtcod.console_set_char_foreground(
+                            con, x, y, colors.get('light_ground'))
+                        libtcod.console_set_char(con, x, y, '.')
 
                     game_map.tiles[x][y].explored = True
                 elif game_map.tiles[x][y].explored:
+                    libtcod.console_set_char_background(
+                        con, x, y, libtcod.Color(5, 10, 15))
                     if wall:
-                        libtcod.console_set_char_background(
-                            con, x, y, colors.get('dark_wall'),
-                            libtcod.BKGND_SET)
+                        libtcod.console_set_char_foreground(
+                            con, x, y, colors.get('dark_wall'))
+                        libtcod.console_set_char(con, x, y, '#')
                     else:
-                        libtcod.console_set_char_background(
-                            con, x, y, colors.get('dark_ground'),
-                            libtcod.BKGND_SET)
+                        libtcod.console_set_char_foreground(
+                            con, x, y, colors.get('dark_ground'))
+                        libtcod.console_set_char(con, x, y, '.')
 
     entities_in_render_order = sorted(
         entities, key=lambda x: x.render_order.value)
