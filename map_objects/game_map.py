@@ -1,10 +1,8 @@
 import libtcodpy as libtcod
 from random import randint
 
-from components.ai import BasicMonster
 from components.equipment import EquipmentSlots
 from components.equippable import Equippable
-from components.fighter import Fighter
 from components.item import Item
 from components.stairs import Stairs
 
@@ -13,7 +11,9 @@ from game_messages import Message
 from item_functions import cast_confuse, cast_fireball, cast_lightning, heal
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
-from map_objects.monsters import create_orc, create_troll
+from map_objects.monsters import (
+    create_naked_mole_rat, create_naked_mole_rat_queen, create_sphynx,
+    create_hippo, create_elephant, create_fuzzy_wuzzy)
 from random_utils import from_dungeon_level, random_choice_from_dict
 from render_functions import RenderOrder
 
@@ -131,9 +131,13 @@ class GameMap:
         number_of_items = randint(0, max_items_per_room)
 
         monster_chances = {
-            'orc': 80,
-            'troll': from_dungeon_level(
-                [[15, 3], [30, 5], [60, 7]], self.dungeon_level)
+            'nmrat': 10,
+            'nmratqueen': 10,
+            'sphynx': 10,
+            'hippo': 10,
+            'elephant': 10,
+            'fuzzywuzzy': from_dungeon_level(
+                [[10, 1]], self.dungeon_level)
         }
         item_chances = {
             'healing_potion': 35,
@@ -158,10 +162,21 @@ class GameMap:
                         if entity.x == x and entity.y == y]):
                 monster_choice = random_choice_from_dict(monster_chances)
 
-                if monster_choice == 'orc':
-                    monster = create_orc(x, y)
+                if monster_choice == 'nmrat':
+                    monster = create_naked_mole_rat(x, y)
+                elif monster_choice == 'nmratqueen':
+                    monster = create_naked_mole_rat_queen(x, y)
+                elif monster_choice == 'sphynx':
+                    monster = create_sphynx(x, y)
+                elif monster_choice == 'hippo':
+                    monster = create_hippo(x, y)
+                elif monster_choice == 'elephant':
+                    monster = create_elephant(x, y)
+                elif monster_choice == 'fuzzywuzzy':
+                    monster = create_fuzzy_wuzzy(x, y)
                 else:
-                    monster = create_troll(x, y)
+                    monster = create_naked_mole_rat(0, 0)
+                    print('error')
 
                 entities.append(monster)
 
