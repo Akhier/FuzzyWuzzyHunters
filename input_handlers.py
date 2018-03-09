@@ -136,7 +136,9 @@ def handle_character_screen(key):
 
 
 def handle_inventory_keys(key):
-    index = key.c - ord('a')
+    index = -1
+    if key.vk == libtcod.KEY_CHAR:
+        index = key.c - ord('a')
 
     if index >= 0:
         return {'inventory_index': index}
