@@ -81,3 +81,33 @@ def create_sphynx(x, y):
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
                   ai=ai_component)
+
+
+def create_hippo(x, y):
+    hp = 30
+    defense = 2
+    power = 8
+    xp = calculate_xp(hp, defense, power)
+    fighter_component = Fighter(hp, defense, power, xp)
+    ai_component = BasicMonster()
+
+    return Entity(x, y, 'H', libtcod.grey,
+                  'Hippo', blocks=True,
+                  render_order=RenderOrder.ACTOR,
+                  fighter=fighter_component,
+                  ai=ai_component)
+
+
+def create_elephant(x, y):
+    hp = randint(38, 45)
+    defense = randint(2, 3)
+    power = 8
+    xp = calculate_xp(hp, defense, power)
+    fighter_component = Fighter(hp, defense, power, xp)
+    ai_component = BasicMonster()
+
+    return Entity(x, y, 'E', libtcod.grey_dark,
+                  'Elephant', blocks=True,
+                  render_order=RenderOrder.ACTOR,
+                  fighter=fighter_component,
+                  ai=ai_component)
