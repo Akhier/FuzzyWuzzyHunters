@@ -14,30 +14,6 @@ def calculate_xp(hp, defense, power):
     return hp * defense + power * power
 
 
-def create_orc(x, y):
-    fighter_component = Fighter(
-        hp=20, defense=0, power=4, xp=35)
-    ai_component = BasicMonster()
-
-    return Entity(x, y, 'o', libtcod.desaturated_green,
-                  'Orc', blocks=True,
-                  render_order=RenderOrder.ACTOR,
-                  fighter=fighter_component,
-                  ai=ai_component)
-
-
-def create_troll(x, y):
-    fighter_component = Fighter(
-        hp=30, defense=2, power=8, xp=100)
-    ai_component = BasicMonster()
-
-    return Entity(x, y, 'T', libtcod.darker_green,
-                  'Troll', blocks=True,
-                  render_order=RenderOrder.ACTOR,
-                  fighter=fighter_component,
-                  ai=ai_component)
-
-
 def create_naked_mole_rat(x, y):
     hp = randint(3, 6)
     defense = 0
