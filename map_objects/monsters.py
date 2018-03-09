@@ -111,3 +111,18 @@ def create_elephant(x, y):
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
                   ai=ai_component)
+
+
+def create_fuzzy_wuzzy(x, y):
+    hp = 60
+    defense = 4
+    power = 10
+    xp = calculate_xp(hp, defense, power)
+    fighter_component = Fighter(hp, defense, power, xp)
+    ai_component = BasicMonster()
+
+    return Entity(x, y, 'B', libtcod.silver,
+                  'Fuzzy Wuzzy', blocks=True,
+                  render_order=RenderOrder.ACTOR,
+                  fighter=fighter_component,
+                  ai=ai_component)
