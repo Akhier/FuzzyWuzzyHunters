@@ -1,4 +1,5 @@
 import libtcodpy as libtcod
+from random import randint
 
 from game_messages import Message
 
@@ -56,8 +57,16 @@ class Fighter:
 
     def attack(self, target):
         results = []
-
-        damage = self.power - target.fighter.defense
+        chance = randint(1, 100)
+        if chance <= 25:
+            power = self.power - 1
+            if power < 1:
+                power = 1
+        elif chance <= 95:
+            power = self.power
+        else:
+            power = self.power + 1
+        damage = power - target.fighter.defense
 
         if damage > 0:
             results.append(
