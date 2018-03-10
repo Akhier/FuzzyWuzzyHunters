@@ -59,7 +59,7 @@ class Fighter:
     def attack(self, target):
         results = []
         accuracy = randint(1, 100)
-        if accuracy > target.dodge_chance:
+        if accuracy > target.fighter.dodge_chance:
             chance = randint(1, 100)
             if chance <= 25:
                 power = self.power - 1
@@ -84,5 +84,11 @@ class Fighter:
                         '{0} attacks {1} but does no damage'.format(
                             self.owner.name.capitalize(),
                             target.name), libtcod.white)})
+        else:
+            results.append(
+                {'message': Message(
+                    '{0} misses {1} with their attack.'.format(
+                        self.owner.name.capitalize(),
+                        target.name), libtcod.light_blue)})
 
         return results
