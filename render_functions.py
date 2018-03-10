@@ -104,6 +104,10 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute,
     libtcod.console_print_ex(
         panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
         'Dungeon level: {0}'.format(game_map.dungeon_level))
+    if player.fighter.dodge_chance > 0:
+        libtcod.console_print_ex(
+            panel, 1, 4, libtcod.BKGND_NONE, libtcod.LEFT,
+            'Dodge Chance: {0}'.format(player.fighter.dodge_chance))
 
     libtcod.console_set_default_foreground(panel, libtcod.light_gray)
     libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,
