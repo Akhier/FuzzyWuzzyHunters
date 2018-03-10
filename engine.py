@@ -86,6 +86,23 @@ def play_game(player, entities, game_map, message_log,
 
                     fov_recompute = True
 
+                if constants['weapon'] == 'pike':
+                    destination_x += dx
+                    destination_y += dy
+                    if not target:
+                        target = get_blocking_entities_at_location(
+                            entities, destination_x, destination_y)
+                        if target:
+                            attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(attack_results)
+                    destination_x += dx
+                    destination_y += dy
+                    target = get_blocking_entities_at_location(
+                        entities, destination_x, destination_y)
+                    if target:
+                        attack_results = player.fighter.attack(target)
+                        player_turn_results.extend(attack_results)
+
                 game_state = GameStates.ENEMY_TURN
 
         elif wait:
@@ -199,6 +216,7 @@ def play_game(player, entities, game_map, message_log,
                     message, game_state = kill_player(dead_entity)
                 else:
                     message, fuzzydied = kill_monster(dead_entity)
+                    fov_recompute = True
 
                 message_log.add_message(message)
                 if fuzzydied:
@@ -382,10 +400,13 @@ def main():
                 get_weapon = False
             elif sword:
                 get_weapon = False
+                constants['weapon'] = 'sword'
             elif daggers:
                 get_weapon = False
+                constants['weapon'] = 'daggers'
             elif pike:
                 get_weapon = False
+                constants['weapon'] = 'pike'
 
         else:
             libtcod.console_clear(con)
