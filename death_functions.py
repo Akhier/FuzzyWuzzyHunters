@@ -18,6 +18,9 @@ def kill_monster(monster):
     death_message = Message(
         '{0} is dead!'.format(monster.name.capitalize()), libtcod.orange)
 
+    fuzzydied = False
+    if monster.name == 'Fuzzy Wuzzy':
+        fuzzydied = True
     monster.char = '%'
     monster.color = libtcod.dark_red
     monster.blocks = False
@@ -26,4 +29,4 @@ def kill_monster(monster):
     monster.name = 'remains of ' + monster.name
     monster.render_order = RenderOrder.CORPSE
 
-    return death_message
+    return death_message, fuzzydied

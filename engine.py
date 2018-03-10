@@ -197,9 +197,15 @@ def play_game(player, entities, game_map, message_log,
                 if dead_entity == player:
                     message, game_state = kill_player(dead_entity)
                 else:
-                    message = kill_monster(dead_entity)
+                    message, fuzzydied = kill_monster(dead_entity)
 
                 message_log.add_message(message)
+                if fuzzydied:
+                    message_log.add_message(Message(
+                        'Fuzzy Wuzzy wasn\'t very fuzzy was he? ' +
+                        'Congratulations on a succesfull hunt! You win!',
+                        libtcod.green))
+                    game_state = GameStates.PLAYER_DEAD
 
             if item_added:
                 entities.remove(item_added)
