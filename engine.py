@@ -70,7 +70,11 @@ def play_game(player, entities, game_map, message_log,
 
         player_turn_results = []
 
-        if game_state == GameStates.PLAYERS_TURN and not moved:
+        if (game_state == GameStates.PLAYERS_TURN and
+                not moved and constants['weapon'] == 'daggers'):
+            player.fighter.dodge_chance = 0
+        elif (game_state == GameStates.PLAYERS_TURN and
+              moved and constants['weapon'] == 'sword'):
             player.fighter.dodge_chance = 0
 
         if move and game_state == GameStates.PLAYERS_TURN:
@@ -85,7 +89,7 @@ def play_game(player, entities, game_map, message_log,
                 if target:
                     attack_results = player.fighter.attack(target)
                     player_turn_results.extend(attack_results)
-                    if constants['weapon'] == 'pike':
+                    if constants['weapon'] == 'sword':
                         player.fighter.dodge_chance = 50
                     moved = False
                 else:
@@ -170,6 +174,7 @@ def play_game(player, entities, game_map, message_log,
 
         elif wait:
             game_state = GameStates.ENEMY_TURN
+            moved = False
 
         elif pickup and game_state == GameStates.PLAYERS_TURN:
             for entity in entities:
@@ -177,6 +182,7 @@ def play_game(player, entities, game_map, message_log,
                         entity.y == player.y):
                     pickup_results = player.inventory.add_item(entity)
                     player_turn_results.extend(pickup_results)
+                    moved = False
 
                     break
             else:
@@ -212,6 +218,7 @@ def play_game(player, entities, game_map, message_log,
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
                     libtcod.console_clear(con)
+                    moved = True
 
                     break
             else:
@@ -266,7 +273,6 @@ def play_game(player, entities, game_map, message_log,
             item_added = player_turn_result.get('item_added')
             item_consumed = player_turn_result.get('consumed')
             item_dropped = player_turn_result.get('item_dropped')
-            equip = player_turn_result.get('equip')
             targeting = player_turn_result.get('targeting')
             targeting_cancelled = player_turn_result.get('targeting_cancelled')
             xp = player_turn_result.get('xp')
@@ -299,23 +305,6 @@ def play_game(player, entities, game_map, message_log,
 
             if item_dropped:
                 entities.append(item_dropped)
-
-                game_state = GameStates.ENEMY_TURN
-
-            if equip:
-                equip_results = player.equipment.toggle_equip(equip)
-
-                for equip_result in equip_results:
-                    equipped = equip_result.get('equipped')
-                    dequipped = equip_result.get('dequipped')
-
-                    if equipped:
-                        message_log.add_message(Message(
-                            'You equipped the {0}'.format(equipped.name)))
-
-                    if dequipped:
-                        message_log.add_message(Message(
-                            'You dequipped the {0}'.format(dequipped.name)))
 
                 game_state = GameStates.ENEMY_TURN
 
