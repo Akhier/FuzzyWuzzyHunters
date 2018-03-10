@@ -1,6 +1,6 @@
 class Level:
     def __init__(self, current_level=1, current_xp=0,
-                 level_up_base=200, level_up_factor=150):
+                 level_up_base=25, level_up_factor=125):
         self.current_level = current_level
         self.current_xp = current_xp
         self.level_up_base = level_up_base
