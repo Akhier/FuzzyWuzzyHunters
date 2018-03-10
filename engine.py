@@ -27,6 +27,7 @@ def play_game(player, entities, game_map, message_log,
     previous_game_state = game_state
 
     targeting_item = None
+    moved = False
 
     while not libtcod.console_is_window_closed():
         libtcod.sys_check_for_event(
@@ -69,6 +70,9 @@ def play_game(player, entities, game_map, message_log,
 
         player_turn_results = []
 
+        if game_state == GameStates.PLAYERS_TURN and not moved:
+            player.fighter.dodge_chance = 0
+
         if move and game_state == GameStates.PLAYERS_TURN:
             dx, dy = move
             destination_x = player.x + dx
@@ -81,10 +85,67 @@ def play_game(player, entities, game_map, message_log,
                 if target:
                     attack_results = player.fighter.attack(target)
                     player_turn_results.extend(attack_results)
+                    moved = False
                 else:
                     player.move(dx, dy)
 
+                    if constants['weapon'] == 'daggers':
+                        if player.fighter.dodge_chance < 25:
+                            player.fighter.dodge_chance += 5
+                        if dx == -1 and dy == -1:
+                            tx1 = destination_x
+                            ty1 = destination_y + 1
+                            tx2 = destination_x + 1
+                            ty2 = destination_y
+                        elif dx == 0 and dy == -1:
+                            tx1 = destination_x - 1
+                            ty1 = destination_y
+                            tx2 = destination_x + 1
+                            ty2 = destination_y
+                        elif dx == 1 and dy == -1:
+                            tx1 = destination_x - 1
+                            ty1 = destination_y
+                            tx2 = destination_x
+                            ty2 = destination_y + 1
+                        elif dx == 1 and dy == 0:
+                            tx1 = destination_x
+                            ty1 = destination_y - 1
+                            tx2 = destination_x
+                            ty2 = destination_y + 1
+                        elif dx == 1 and dy == 1:
+                            tx1 = destination_x
+                            ty1 = destination_y - 1
+                            tx2 = destination_x - 1
+                            ty2 = destination_y
+                        elif dx == 0 and dy == 1:
+                            tx1 = destination_x + 1
+                            ty1 = destination_y
+                            tx2 = destination_x - 1
+                            ty2 = destination_y
+                        elif dx == -1 and dy == 1:
+                            tx1 = destination_x + 1
+                            ty1 = destination_y
+                            tx2 = destination_x
+                            ty2 = destination_y - 1
+                        else:
+                            tx1 = destination_x
+                            ty1 = destination_y + 1
+                            tx2 = destination_x
+                            ty2 = destination_y - 1
+
+                        target = get_blocking_entities_at_location(
+                            entities, tx1, ty1)
+                        if target:
+                            attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(attack_results)
+                        target = get_blocking_entities_at_location(
+                            entities, tx2, ty2)
+                        if target:
+                            attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(attack_results)
+
                     fov_recompute = True
+                    moved = True
 
                 if constants['weapon'] == 'pike':
                     destination_x += dx
