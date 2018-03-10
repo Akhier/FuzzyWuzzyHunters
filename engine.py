@@ -437,8 +437,12 @@ def main():
                 break
 
         elif get_weapon:
-            menu(con, 'Choose Weapon', ['Sword and Board', 'Daggers', 'Pike'],
-                 24, constants['screen_width'], constants['screen_height'])
+            menu(
+                con, 'Choose Weapon',
+                ['Sword and Board (Chance to block when fighting straight on)',
+                 'Daggers (Gets a sneaky stab in and can dodge when moving)',
+                 'Pike (Attacks twice as far as other weapons)'],
+                64, constants['screen_width'], constants['screen_height'])
             libtcod.console_flush()
 
             action = handle_weapon_menu(key)
@@ -448,6 +452,7 @@ def main():
             pike = action.get('pike')
 
             if exit:
+                libtcod.console_clear(0)
                 show_main_menu = True
                 get_weapon = False
             elif sword:
