@@ -21,7 +21,7 @@ from render_functions import RenderOrder
 
 def get_game_variables(constants):
     fighter_component = Fighter(hp=100, defense=0, power=2)
-    inventory_component = Inventory(26)
+    inventory_component = Inventory(10)
     level_component = Level()
     equipment_component = Equipment()
     player = Entity(
