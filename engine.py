@@ -85,6 +85,8 @@ def play_game(player, entities, game_map, message_log,
                 if target:
                     attack_results = player.fighter.attack(target)
                     player_turn_results.extend(attack_results)
+                    if constants['weapon'] == 'pike':
+                        player.fighter.dodge_chance = 50
                     moved = False
                 else:
                     player.move(dx, dy)
