@@ -30,15 +30,26 @@ def create_naked_mole_rat(x, y):
 
 
 def create_naked_mole_rat_queen(x, y):
-    hp = randint(30, 60)
+    chance = -1
+    while chance < 0:
+        chance = 0
+        for i in range(6):
+            chance += randint(1, 10)
+        chance -= 30
+    hp = 30 + chance
     defense = 2
-    power = 3
+    power = int(hp / 10)
     xp = calculate_xp(hp, defense, power)
     fighter_component = Fighter(hp, defense, power, xp)
     ai_component = BasicMonster()
+    if hp == 30:
+        name = 'Perfect Dire Naked Mole Rate Queen'
+    elif hp >= 20:
+        name = 'Dire Naked Mole Rat Queen'
+    else:
+        name = 'Naked Mole Rat Queen'
 
-    return Entity(x, y, 'n', libtcod.sepia,
-                  'Naked Mole Rat Queen', blocks=True,
+    return Entity(x, y, 'n', libtcod.sepia, name, blocks=True,
                   render_order=RenderOrder.ACTOR,
                   fighter=fighter_component,
                   ai=ai_component)

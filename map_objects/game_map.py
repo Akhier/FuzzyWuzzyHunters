@@ -137,7 +137,7 @@ class GameMap:
             'nmrat': from_dungeon_level(
                 [[100, 1], [10, 2], [0, 3]], self.dungeon_level),
             'nmratqueen': from_dungeon_level(
-                [[5, 1], [0, 2]], self.dungeon_level),
+                [[1, 1], [0, 2]], self.dungeon_level),
             'sphynx': from_dungeon_level(
                 [[10, 1], [100, 2]], self.dungeon_level),
             'hippo': from_dungeon_level(
