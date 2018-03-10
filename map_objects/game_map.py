@@ -190,16 +190,6 @@ class GameMap:
                     item = Entity(x, y, '!', libtcod.violet, 'Healing Potion',
                                   render_order=RenderOrder.ITEM,
                                   item=item_component)
-                elif item_choice == 'sword':
-                    equippable_component = Equippable(
-                        EquipmentSlots.MAIN_HAND, power_bonus=3)
-                    item = Entity(x, y, '/', libtcod.sky, 'Sword',
-                                  equippable=equippable_component)
-                elif item_choice == 'shield':
-                    equippable_component = Equippable(
-                        EquipmentSlots.OFF_HAND, defense_bonus=1)
-                    item = Entity(x, y, '[', libtcod.darker_orange, 'Shield',
-                                  equippable=equippable_component)
                 elif item_choice == 'fireball_scroll':
                     item_component = Item(
                         use_function=cast_fireball, targeting=True,
