@@ -166,3 +166,21 @@ def handle_main_menu(key):
         return {'exit': True}
 
     return {}
+
+
+def handle_weapon_menu(key):
+    key_char = None
+    if key.vk == libtcod.KEY_CHAR:
+        key_char = chr(key.c)
+
+    if key_char == 'a':
+        return {'sword': True}
+    elif key_char == 'b':
+        return {'daggers': True}
+    elif key_char == 'c':
+        return {'pike': True}
+    elif key.vk == libtcod.KEY_ESCAPE:
+        # Exit the menu
+        return {'exit': True}
+
+    return {}

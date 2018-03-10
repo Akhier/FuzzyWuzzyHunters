@@ -5,11 +5,12 @@ from entity import get_blocking_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
-from input_handlers import handle_keys, handle_mouse, handle_main_menu
+from input_handlers import (
+    handle_keys, handle_mouse, handle_main_menu, handle_weapon_menu)
 from loader_functions.initialize_new_game import (
     get_constants, get_game_variables)
 from loader_functions.data_loaders import load_game, save_game
-from menus import main_menu, message_box
+from menus import menu, main_menu, message_box
 from render_functions import clear_all, render_all
 
 
@@ -317,6 +318,7 @@ def main():
     game_state = None
 
     show_main_menu = True
+    get_weapon = False
     show_load_error_message = False
 
     key = libtcod.Key()
@@ -350,6 +352,7 @@ def main():
             elif new_game:
                 player, entities, game_map, message_log, game_state = (
                     get_game_variables(constants))
+                get_weapon = True
                 game_state = GameStates.PLAYERS_TURN
 
                 show_main_menu = False
@@ -362,6 +365,27 @@ def main():
                     show_load_error_message = True
             elif exit_game:
                 break
+
+        elif get_weapon:
+            menu(con, 'Choose Weapon', ['Sword and Board', 'Daggers', 'Pike'],
+                 24, constants['screen_width'], constants['screen_height'])
+            libtcod.console_flush()
+
+            action = handle_weapon_menu(key)
+            exit = action.get('exit')
+            sword = action.get('sword')
+            daggers = action.get('daggers')
+            pike = action.get('pike')
+
+            if exit:
+                show_main_menu = True
+                get_weapon = False
+            elif sword:
+                pass
+            elif daggers:
+                pass
+            elif pike:
+                pass
 
         else:
             libtcod.console_clear(con)
