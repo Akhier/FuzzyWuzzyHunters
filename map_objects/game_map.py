@@ -1,8 +1,6 @@
 import libtcodpy as libtcod
 from random import randint
 
-from components.equipment import EquipmentSlots
-from components.equippable import Equippable
 from components.item import Item
 from components.stairs import Stairs
 
@@ -128,7 +126,7 @@ class GameMap:
 
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level(
-            [[2, 1], [3, 4], [5, 6]], self.dungeon_level)
+            [[4, 1], [3, 3], [2, 5]], self.dungeon_level)
         max_items_per_room = from_dungeon_level(
             [[1, 1], [2, 4]], self.dungeon_level)
 
@@ -149,16 +147,12 @@ class GameMap:
         }
         item_chances = {
             'healing_potion': 35,
-            'sword': from_dungeon_level(
-                [[5, 3]], self.dungeon_level),
-            'shield': from_dungeon_level(
-                [[15, 4]], self.dungeon_level),
             'lightning_scroll': from_dungeon_level(
-                [[25, 2]], self.dungeon_level),
+                [[15, 4]], self.dungeon_level),
             'fireball_scroll': from_dungeon_level(
-                [[25, 3]], self.dungeon_level),
+                [[20, 2]], self.dungeon_level),
             'confusion_scroll': from_dungeon_level(
-                [[10, 2]], self.dungeon_level)
+                [[25, 3]], self.dungeon_level)
         }
 
         for i in range(number_of_monsters):

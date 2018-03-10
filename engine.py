@@ -381,11 +381,11 @@ def main():
                 show_main_menu = True
                 get_weapon = False
             elif sword:
-                pass
+                get_weapon = False
             elif daggers:
-                pass
+                get_weapon = False
             elif pike:
-                pass
+                get_weapon = False
 
         else:
             libtcod.console_clear(con)
