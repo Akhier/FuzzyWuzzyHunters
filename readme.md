@@ -8,12 +8,19 @@ To run the game you need python3. If you have it then simply 'python FuzzyWuzzyH
 
 If you have played a traditional roguelike it should be familiar.
 Keypad and Vi movement as well as the arrows keys if you don't want diagonals.
+
 'g' will grab stuff
+
 'i' will show your inventory and let you use items
+
 'd' lets you drop items
+
 '>' when standing on one will let you go down to the next level
+
 'c' displays your character sheet
+
 enter + lalt will toggle fullscren
+
 Esc lets you escape
 
 ### Your weapon
