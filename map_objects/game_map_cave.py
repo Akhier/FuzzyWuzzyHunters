@@ -61,6 +61,9 @@ class GameMap:
         else:
             entities.append(create_fuzzy_wuzzy(endtile[0], endtile[1]))
 
+        if not self.check_stairs_reachable(player, endtile):
+            self.make_map(player, entities)
+
     def process_map(self):
         newtiles = self.initialize_tiles()
         for y in range(2, self.height - 2):
@@ -73,6 +76,22 @@ class GameMap:
                     newtiles[x][y].blocked = True
                 newtiles[x][y].block_sight = newtiles[x][y].blocked
         self.tiles = newtiles
+
+    def check_stairs_reachable(self, player, endtile):
+        star = libtcod.map_new(self.width, self.height)
+
+        for y1 in range(self.height):
+            for x1 in range(self.width):
+                libtcod.map_set_properties(
+                    star, x1, y1, not self.tiles[x1][y1].block_sight,
+                    not self.tiles[x1][y1].blocked)
+
+        path = libtcod.path_new_using_map(star, 1)
+        libtcod.path_compute(path, player.x, player.y, endtile[0], endtile[1])
+
+        if libtcod.path_is_empty(path):
+            return False
+        return True
 
     def get_walls(self, x, y):
         wallcount = 0
@@ -104,12 +123,13 @@ class GameMap:
 
     def place_entities(self, entities):
         max_monsters_per_room = from_dungeon_level(
-            [[40, 1], [30, 3], [20, 5]], self.dungeon_level)
+            [[100, 1], [75, 2], [50, 3], [25, 4]], self.dungeon_level)
         max_items_per_room = from_dungeon_level(
-            [[10, 1], [20, 4]], self.dungeon_level)
+            [[20, 1], [10, 4]], self.dungeon_level)
 
-        number_of_monsters = randint(0, max_monsters_per_room)
-        number_of_items = randint(0, max_items_per_room)
+        number_of_monsters = randint(int(max_monsters_per_room / 2),
+                                     max_monsters_per_room)
+        number_of_items = randint(int(max_items_per_room), max_items_per_room)
 
         monster_chances = {
             'nmrat': from_dungeon_level(
@@ -133,10 +153,11 @@ class GameMap:
                 [[25, 3]], self.dungeon_level)
         }
 
-        for i in range(number_of_monsters):
+        i = 0
+        while i < number_of_monsters:
             # Choose a random location in the room
             x = randint(1, self.width - 2)
-            y = randint(1, self.width - 2)
+            y = randint(1, self.height - 2)
 
             if not any([entity for entity in entities
                         if entity.x == x and entity.y == y]):
@@ -153,11 +174,13 @@ class GameMap:
                 else:
                     monster = create_elephant(x, y)
 
+                i += 1
                 entities.append(monster)
 
-        for i in range(number_of_items):
+        i = 0
+        while i < number_of_items:
             x = randint(1, self.width - 2)
-            y = randint(1, self.width - 2)
+            y = randint(1, self.height - 2)
 
             if not any([entity for entity in entities
                         if entity.x == x and entity.y == y]):
@@ -194,6 +217,7 @@ class GameMap:
                         x, y, '#', libtcod.yellow, 'Lightning Scroll',
                         render_order=RenderOrder.ITEM, item=item_component)
 
+                i += 1
                 entities.append(item)
 
     def next_floor(self, player, message_log, constants):
