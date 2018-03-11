@@ -190,6 +190,7 @@ class GameMap:
                     item = Entity(x, y, '!', libtcod.violet, 'Healing Potion',
                                   render_order=RenderOrder.ITEM,
                                   item=item_component)
+
                 elif item_choice == 'fireball_scroll':
                     item_component = Item(
                         use_function=cast_fireball, targeting=True,
